@@ -1,0 +1,32 @@
+var loggerApp;
+(function () {
+    'use strict';
+    loggerApp =  angular
+        .module("loggerApp", [
+        'ngSanitize',
+        'ui.router',
+        'ui.bootstrap',
+        'ngResource',
+        'ngMaterial'
+    ]).run(run);
+
+    run.$inject = ['$rootScope', '$location', '$state'];
+    function run($rootScope, $location, $state) {
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+               if(!localStorage.getItem('formioToken')){
+                    $location.path('/login');
+                }
+        });
+    }
+
+    var API_URL = 'https://judmyihfvslaczr.form.io';
+    var TVMaze_API = 'http://api.tvmaze.com';
+
+    loggerApp.constant('AppConfig', {
+        apiUrl: API_URL,
+        tvMazeApiUrl : TVMaze_API,  
+        forms: {
+            userLogin: API_URL + '/user/login/submission',
+        }
+    });
+})();
