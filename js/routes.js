@@ -23,6 +23,18 @@
                     controller : 'homeController'
                 }
             }
+        }).state('main.resultInfo',{
+            url: '/series/:showName/:showId',
+            views: {
+                'headerBar' : {
+                    templateUrl : 'views/header.html',
+                    controller : 'headerController'
+                },
+                'mainBody' : {
+                    templateUrl : 'views/seriesInfo.html',
+                    controller : 'seriesInfoController'
+                }
+            }
         });
         
         $urlRouterProvider.otherwise('/');

@@ -26,11 +26,14 @@
                 });
                 next(search.results);
             },function(error){
-              console.log(error.status);
+                console.log(error.status);
             });
         };
-     return search;   
+        return search;   
     });
-    
+
+    loggerApp.service('seriesInfo', function(){
+        this.info = {};
+    });
 
 })();

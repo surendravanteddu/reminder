@@ -7,7 +7,8 @@ var loggerApp;
         'ui.router',
         'ui.bootstrap',
         'ngResource',
-        'ngMaterial'
+        'ngMaterial',
+        'ngRoute'
     ]).run(run);
 
     run.$inject = ['$rootScope', '$location', '$state'];

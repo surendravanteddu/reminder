@@ -1,3 +1,8 @@
-<div>This is episodes list
-    <div>test</div>
+<div>
+    <div ng-repeat="season in seasons">
+        <p>{{season[0].season}}</p>
+        <span ng-repeat="episodes in season">
+              {{episodes.number}}
+        </span>
+    </div>
 </div>

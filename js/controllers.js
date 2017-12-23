@@ -24,12 +24,31 @@
     }])
 
 
-        .controller('homeController',['$scope','AppConfig','$http','$state',function($scope,AppConfig,$http,$state,searchSuggestions){
-            
+        .controller('homeController',['$scope','AppConfig','$http','$state','seriesInfo',function($scope,AppConfig,$http,$state,searchSuggestions,seriesInfo){
+                     $http.get('episodes.json').then(function(res){
+                         $scope.seasons = [];
+                         var curr;
+                         var season = [];
+                         angular.forEach(res.data,function(value,key){
+    
+                             if(!curr){
+                                curr = value.season;    
+                             }
+                             
+                             if(curr !== value.season){
+                                $scope.seasons.push(season); 
+                                season = []; 
+                                curr = value.season;    
+                             }
+                             
+                             season.push(value);  
+                         });
+                         $scope.seasons.push(season);
+                         console.log($scope.seasons);
+                    });
         }])
-
-
-        .controller('headerController',['$scope','AppConfig','$http','$state','userInfo','$timeout','$q','searchResults',function($scope,AppConfig,$http,$state,userInfo,$timeout,$q,searchResults,searchSuggestions){
+    
+        .controller('headerController',['$scope','AppConfig','$http','$state','userInfo','$timeout','$q','searchResults','$location',function($scope,AppConfig,$http,$state,userInfo,$timeout,$q,searchResults,$location){
             $scope.username = userInfo.username;
             var timeout;
             $scope.suggesstions = function(searchText){
@@ -45,16 +64,23 @@
                 return deferred.promise;
             };
 
-            $scope.searchShows = function(){
-                searchResults.getResults($scope.keyword,function(result){
-                    
-                });   
+            $scope.searchShows = function(object){
+                var stateName = JSON.parse(JSON.stringify($state.current)).name;
+                if(stateName == 'main.resultInfo'){
+                    $state.reload();
+                }else{
+                    $location.path('/series/'+object.showName+"/"+object.id);
+                }
             };
 
             $scope.logout = function(){
                 localStorage.clear();
                 $state.go('login');    
             };
+        }])
+
+        .controller('seriesInfoController',['$scope','$state','$q','$location','$stateParams',function($scope,$state,$q,$location,$stateParams){
+            $scope.showName = $stateParams.showName;
         }]);
 
 })();    
