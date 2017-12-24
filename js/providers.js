@@ -1,12 +1,14 @@
 (function(){
     'use strict';
-    loggerApp.factory('userInfo',function(){
+    loggerApp
+    
+    .factory('userInfo',function(){
         var data = localStorage.getItem("appUser");
         data = JSON.parse(data);
         return data.data;       
-    });
-
-    loggerApp.factory('searchResults',function($http,AppConfig){
+    })
+    
+    .factory('searchResults',function($http,AppConfig){
         var search = {};
         search.results = [];
         search.getResults = function(keyword,next){
@@ -30,10 +32,41 @@
             });
         };
         return search;   
-    });
+    })
+    
+    .factory('seriesInfo', function($http,AppConfig){
+        var seriesInfo = {};
+        
+        seriesInfo.info = function(showId,next){
+          $http.get(AppConfig.tvMazeApiUrl+'/shows/'+showId).then(function(res){
+                next(res.data);
+            });  
+        };
+        
+        seriesInfo.seasons = function(showId,next){
+          $http.get(AppConfig.tvMazeApiUrl+'/shows/'+showId+'/episodes').then(function(res){
+                var seasons = [];
+                var curr;
+                var season = [];
+                angular.forEach(res.data,function(value,key){
 
-    loggerApp.service('seriesInfo', function(){
-        this.info = {};
+                    if(!curr){
+                        curr = value.season;    
+                    }
+
+                    if(curr !== value.season){
+                        seasons.push(season); 
+                        season = []; 
+                        curr = value.season;    
+                    }
+                    
+                    season.push(value);  
+                });
+                seasons.push(season);
+                next(seasons);
+            });  
+        };
+      return seriesInfo;  
     });
 
 })();

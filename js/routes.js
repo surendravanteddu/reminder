@@ -10,14 +10,11 @@
             controller : 'loginController'
         }).state('main', {
             abstract : true,
-            templateUrl: 'views/main.html'
+            templateUrl: 'views/main.html',
+            controller: 'headerController'
         }).state('main.home',{
             url: '/',
             views: {
-                'headerBar' : {
-                    templateUrl : 'views/header.html',
-                    controller : 'headerController'
-                },
                 'mainBody' : {
                     templateUrl : 'views/home.html',
                     controller : 'homeController'
@@ -26,10 +23,6 @@
         }).state('main.resultInfo',{
             url: '/series/:showName/:showId',
             views: {
-                'headerBar' : {
-                    templateUrl : 'views/header.html',
-                    controller : 'headerController'
-                },
                 'mainBody' : {
                     templateUrl : 'views/seriesInfo.html',
                     controller : 'seriesInfoController'

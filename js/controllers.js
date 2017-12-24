@@ -1,5 +1,6 @@
 (function () {
     'use strict';
+    
     loggerApp.controller("loginController", ['$scope','AppConfig','$http','$state','$location',function($scope,AppConfig,$http,$state,$location){
         $scope.data = {};
         $scope.loginFailed = false;
@@ -22,32 +23,10 @@
             });
         };
     }])
-
-
         .controller('homeController',['$scope','AppConfig','$http','$state','seriesInfo',function($scope,AppConfig,$http,$state,searchSuggestions,seriesInfo){
-                     $http.get('episodes.json').then(function(res){
-                         $scope.seasons = [];
-                         var curr;
-                         var season = [];
-                         angular.forEach(res.data,function(value,key){
-    
-                             if(!curr){
-                                curr = value.season;    
-                             }
-                             
-                             if(curr !== value.season){
-                                $scope.seasons.push(season); 
-                                season = []; 
-                                curr = value.season;    
-                             }
-                             
-                             season.push(value);  
-                         });
-                         $scope.seasons.push(season);
-                         console.log($scope.seasons);
-                    });
+            
         }])
-    
+
         .controller('headerController',['$scope','AppConfig','$http','$state','userInfo','$timeout','$q','searchResults','$location',function($scope,AppConfig,$http,$state,userInfo,$timeout,$q,searchResults,$location){
             $scope.username = userInfo.username;
             var timeout;
@@ -66,11 +45,7 @@
 
             $scope.searchShows = function(object){
                 var stateName = JSON.parse(JSON.stringify($state.current)).name;
-                if(stateName == 'main.resultInfo'){
-                    $state.reload();
-                }else{
-                    $location.path('/series/'+object.showName+"/"+object.id);
-                }
+                $location.path('/series/'+object.showName+"/"+object.id);
             };
 
             $scope.logout = function(){
@@ -79,8 +54,20 @@
             };
         }])
 
-        .controller('seriesInfoController',['$scope','$state','$q','$location','$stateParams',function($scope,$state,$q,$location,$stateParams){
+        .controller('seriesInfoController',['$scope','$state','$q','$location','$stateParams','seriesInfo',function($scope,$state,$q,$location,$stateParams,seriesInfo){
             $scope.showName = $stateParams.showName;
+            
+            seriesInfo
+            .info($stateParams.showId,function(result){
+                console.log(result.image.original);
+                $scope.imageUrl = result.image.original;       
+            });
+            
+            seriesInfo
+            .seasons($stateParams.showId,function(result){
+                $scope.seasons = result;
+            });
+            
         }]);
 
 })();    
