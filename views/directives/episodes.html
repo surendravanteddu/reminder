@@ -1,12 +1,17 @@
-<div>
+<div style="margin-left: 10px;">
     <div ng-repeat="season in seasons">
         <h3 style="color: #1aa3ff;">Season {{season[0].season}}</h3>
-        <div class="col-lg-12 col-md-6 col-sm-6">
-        <span ng-repeat="episodes in season">
-              <md-button class="test-tooltip" class="btn btn-sq-sm btn-info">
-              <md-tooltip md-direction="bottom">Do you want to bookmark?<br><button class="btn btn-success">Yes</button><button class="btn btn-danger">No</button></md-tooltip>
-              {{episodes.number}}</md-button>
-        </span>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <span ng-repeat="episodes in season">
+                    <button href="#" class="btn btn-info ctooltip"  data-toggle="tooltip" title="{{episodes.name}}">
+                        {{episodes.number}}
+                        <span class="ctooltiptext">
+                            <input type="button" value="Checkpoint" class="btn btn-primary">
+                        </span>
+                    </button>
+                </span>
+            </div>
+        </div>    
     </div>
-    </div>
-</div>
+</div>    
