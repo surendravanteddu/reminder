@@ -32,16 +32,14 @@
             replace : true       
         } 
     }).directive("myShows",function(){
-       
         return {
          restrict : 'E',
          replace : true,
          scope: {
-             
+             seasons : '=',
          },
          templateUrl: 'views/directives/myShows.html',    
          controller: ['$scope',function($scope){
-             
          }]    
        }; 
     

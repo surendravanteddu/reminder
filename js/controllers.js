@@ -27,8 +27,10 @@
                 $scope.errorMessage = error.data;
             });
         };
-    }]).controller('homeController', ['$scope', 'AppConfig', '$http', '$state', 'seriesInfo', function ($scope, AppConfig, $http, $state, searchSuggestions, seriesInfo) {
-        //homecontroller
+    }]).controller('homeController', ['$scope', 'AppConfig', '$http', '$state', 'seriesInfo', function ($scope, AppConfig, $http, $state, seriesInfo) {
+        seriesInfo.myShows(function (result) {
+            $scope.seasons = result;
+        });
     }]).controller('headerController', ['$scope', 'AppConfig', '$http', '$state', 'userInfo', '$timeout', '$q', 'searchResults', '$location', function ($scope, AppConfig, $http, $state, userInfo, $timeout, $q, searchResults, $location) {
         $scope.username = userInfo.username;
         var timeout;

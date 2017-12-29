@@ -1,0 +1,29 @@
+<div class="container" style="margin-bottom: 20px;">
+	<div ng-repeat="season in seasons">
+		<h3 style="color: #1aa3ff;">{{season.data.seriesname}}</h3>
+        <table>
+            <tr><td><span>Current Season: </span></td>
+                <td><div class="input-group number-spinner">
+                    <span class="input-group-btn data-dwn">
+                        <button class="btn btn-default btn-info" style="margin-top: -35px;" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                    </span>
+                    <input type="text" class="form-control text-center" value="{{season.data.season}}" style="margin-top: 27px; width: 60%;" min="-10" max="40">
+                    <span class="input-group-btn data-up">
+                        <button class="btn btn-default btn-info" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+                    </span>
+                </div></td>
+                <td><span>Current Episode: </span></td>
+                <td><div class="input-group number-spinner">
+                    <span class="input-group-btn data-dwn">
+                        <button class="btn btn-default btn-info" style="margin-top: -35px;" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                    </span>
+                    <input type="text" class="form-control text-center" value="{{season.data.episode}}" style="margin-top: 27px; width: 60%;" min="-10" max="40">
+                    <span class="input-group-btn data-up">
+                        <button class="btn btn-default btn-info" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+                    </span>
+                </div></td>
+                <td><input type="submit" value="Save" name="submit" class="btn btn-primary"></td>
+            </tr>
+        </table>
+    </div>
+</div>

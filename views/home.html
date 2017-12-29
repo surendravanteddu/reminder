@@ -1,5 +1,64 @@
-<div>
-<episodes seasons="seasons"></episodes>
-<div style="position: relative">
-</div>
-</div>    
+<html>
+<head>
+	<style type="text/css">
+	.input-group span.input-group-btn,.input-group input,.input-group button{
+		display: block;
+		width: 77.5%;
+		border-radius: 0;
+		margin: 0;
+	}
+	.input-group {
+		position: relative;   
+	}
+	.input-group span.data-up{
+		position: absolute;
+		top: 0;
+	}
+	.input-group span.data-dwn{
+		position: absolute;
+		bottom: 0;
+	}
+	.form-control.text-center {
+		margin: 34px 0;
+	}
+	.input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group{
+		margin-left:0;
+	}
+</style>
+<script type="text/javascript">
+	$(function() {
+		var action;
+		$(".number-spinner button").mousedown(function () {
+			btn = $(this);
+			input = btn.closest('.number-spinner').find('input');
+			btn.closest('.number-spinner').find('button').prop("disabled", false);
+
+			if (btn.attr('data-dir') == 'up') {
+				action = setInterval(function(){
+					if ( input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max')) ) {
+						input.val(parseInt(input.val())+1);
+					}else{
+						btn.prop("disabled", true);
+						clearInterval(action);
+					}
+				}, 50);
+			} else {
+				action = setInterval(function(){
+					if ( input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min')) ) {
+						input.val(parseInt(input.val())-1);
+					}else{
+						btn.prop("disabled", true);
+						clearInterval(action);
+					}
+				}, 50);
+			}
+		}).mouseup(function(){
+			clearInterval(action);
+		});
+	});
+</script>
+</head>
+<body>
+	<my-shows seasons="seasons"></my-shows>
+</body>
+</html>
