@@ -30,7 +30,14 @@
     }]).controller('homeController', ['$scope', 'AppConfig', '$http', '$state', 'seriesInfo', function ($scope, AppConfig, $http, $state, seriesInfo) {
         seriesInfo.myShows(function (result) {
             $scope.seasons = result;
+            $scope.showsInfo = {};
+            $scope.seasons.forEach(function(value,key){
+               seriesInfo.seasons(value.data.tvmazeid,function(res){
+                  $scope.showsInfo[value.data.tvmazeid] = res; 
+               });
+            });
         });
+        
     }]).controller('headerController', ['$scope', 'AppConfig', '$http', '$state', 'userInfo', '$timeout', '$q', 'searchResults', '$location', function ($scope, AppConfig, $http, $state, userInfo, $timeout, $q, searchResults, $location) {
         $scope.username = userInfo.username;
         var timeout;
