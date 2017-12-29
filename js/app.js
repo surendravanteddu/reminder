@@ -8,7 +8,8 @@ var loggerApp;
         'ui.bootstrap',
         'ngResource',
         'ngMaterial',
-        'ngRoute'
+        'ngRoute',
+        'ngToast'
     ]).run(run);
 
     run.$inject = ['$rootScope', '$location', '$state'];
@@ -28,6 +29,7 @@ var loggerApp;
         tvMazeApiUrl : TVMaze_API,  
         forms: {
             userLogin: API_URL + '/user/login/submission',
+            useractivity: API_URL + '/useractivity/submission',
         }
     });
 })();

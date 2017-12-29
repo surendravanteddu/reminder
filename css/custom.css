@@ -1,0 +1,70 @@
+a { cursor: pointer; cursor: hand; }
+.autocomplete-custom-template li:nth-child(even){background-color: #D3D3D3;}
+
+.ctooltip {
+    border: 1px solid #1aa3ff;
+    background-color: white;
+    color: #1aa3ff;
+    font-size: 13px;
+    min-width: 1%;
+    min-height: 1%;
+    width: 50px;  
+    margin-bottom: 5px;
+    position: relative;
+    display: inline-block;
+}
+
+.ctooltip .ctooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+    padding: 2px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+}
+
+.ctooltip .ctooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #337AB7 transparent transparent transparent;
+}
+
+.ctooltip:hover .ctooltiptext, .ctooltip:focus .ctooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.ctooltip:hover{
+    background-color: #337AB7;
+}
+
+.changebgcolor{
+    background-color: #337AB7;
+    color: white
+}
+.ng-toast ul{
+    list-style-type: none; 
+}
+
+.cToast{
+    margin-top: -5%;
+    margin-left: 60%; 
+    width:30%; 
+    position: fixed; 
+    z-index: 1;
+    text-align: center
+}
+
+
