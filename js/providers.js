@@ -1,14 +1,14 @@
 (function(){
     'use strict';
     loggerApp
-    
-    .factory('userInfo',function(){
+
+        .factory('userInfo',function(){
         var data = localStorage.getItem("appUser");
         data = JSON.parse(data);
         return data.data;       
     })
-    
-    .factory('searchResults',function($http,AppConfig){
+
+        .factory('searchResults',function($http,AppConfig){
         var search = {};
         search.results = [];
         search.getResults = function(keyword,next){
@@ -33,18 +33,18 @@
         };
         return search;   
     })
-    
-    .factory('seriesInfo', function($http,AppConfig){
+
+        .factory('seriesInfo', function($http,AppConfig){
         var seriesInfo = {};
-        
+
         seriesInfo.info = function(showId,next){
-          $http.get(AppConfig.tvMazeApiUrl+'/shows/'+showId).then(function(res){
+            $http.get(AppConfig.tvMazeApiUrl+'/shows/'+showId).then(function(res){
                 next(res.data);
             });  
         };
-        
+
         seriesInfo.seasons = function(showId,next){
-          $http.get(AppConfig.tvMazeApiUrl+'/shows/'+showId+'/episodes').then(function(res){
+            $http.get(AppConfig.tvMazeApiUrl+'/shows/'+showId+'/episodes').then(function(res){
                 var seasons = [];
                 var curr;
                 var season = [];
@@ -59,14 +59,35 @@
                         season = []; 
                         curr = value.season;    
                     }
-                    
+
                     season.push(value);  
                 });
                 seasons.push(season);
                 next(seasons);
             });  
         };
-      return seriesInfo;  
+
+        seriesInfo.checkpoint = function(showId, next){
+            $http.get(AppConfig.forms.useractivity+'?data.tvmazeid='+showId,  
+                      {
+                headers: {
+                    'x-jwt-token': localStorage.getItem('formioToken')  
+                } 
+            })
+                .then(function (response) {
+                var result = {};
+                if(response.data[0]){
+                    result.s = response.data[0].data.season;
+                    result.e = response.data[0].data.episode;
+                    result._id = response.data[0]._id;
+                }
+                next(result);
+            },function(error){
+                console.log(error.data +", "+error.status+", "+error.statusText);
+            });  
+        };
+
+        return seriesInfo;  
     });
 
 })();
