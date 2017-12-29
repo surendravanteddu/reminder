@@ -2,7 +2,7 @@
     <div ng-repeat="season in seasons">
         <h3 style="color: #1aa3ff;">Season {{season[0].season}}</h3>
         <div class="row">
-            <div class="col-lg-9 col-md-12 col-sm-12">
+            <div class="col-lg-9 col-md-5 col-sm-5">
                 <span ng-repeat="episodes in season">
                     <p class="btn btn-info ctooltip {{ watched(episodes) ? 'changebgcolor' : ''}}"  data-toggle="tooltip" title="{{episodes.name}}">
                         {{episodes.number}}
