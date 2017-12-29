@@ -54,9 +54,10 @@
         };
     }]).controller('seriesInfoController', ['$scope', '$state', '$q', '$location', '$stateParams', 'seriesInfo', '$http', 'AppConfig', 'ngToast', function ($scope, $state, $q, $location, $stateParams, seriesInfo, $http, AppConfig, ngToast) {
 
-        $scope.showName = $stateParams.showName;
         seriesInfo.info($stateParams.showId, function (result) {
+            $scope.showName = result.name;
             $scope.imageUrl = result.image.original;
+            $scope.summary = result.summary;
         });
         seriesInfo.seasons($stateParams.showId, function (result) {
             $scope.seasons = result;
@@ -68,7 +69,7 @@
         });
         $scope.saveCheckpoint = function (episode) {
             var savepoint = {};
-            savepoint.seriesname = $stateParams.showName;
+            savepoint.seriesname = $scope.showName;
             savepoint.tvmazeid = $stateParams.showId;
             savepoint.season = episode.season;
             savepoint.episode = episode.number;
