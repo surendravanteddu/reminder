@@ -55,14 +55,13 @@
                     }
 
                     if(curr !== value.season){
-                        seasons.push(season); 
+                        seasons[value.season - 1] = season; 
                         season = []; 
                         curr = value.season;    
                     }
-
-                    season.push(value);  
+                    season[value.number] = value;
                 });
-                seasons.push(season);
+                seasons[curr] = season;
                 next(seasons);
             });  
         };

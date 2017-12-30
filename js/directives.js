@@ -44,32 +44,27 @@
             controller: ['$scope',function($scope){
 
                 $scope.sPlus = function(index){
-                    var currShowInfo = $scope.showsInfo[$scope.seasons[index].data.tvmazeid];
-                    if($scope.seasons[index].data.season < currShowInfo[currShowInfo.length - 1][0].season){
-                        console.log(currShowInfo);
+                    let currShowInfo = $scope.showsInfo[$scope.seasons[index].data.tvmazeid][$scope.seasons[index].data.season];
+                    let currShowInfo1 = $scope.showsInfo[$scope.seasons[index].data.tvmazeid];
+                    if($scope.seasons[index].data.season < currShowInfo1[currShowInfo1.length - 1][1].season){
                         $scope.seasons[index].data.season += 1;   
                     }
                 };
                 $scope.sMinus = function(index){
-                    var currShowInfo = $scope.showsInfo[$scope.seasons[index].data.tvmazeid];
-                    if($scope.seasons[index].data.season > currShowInfo[0][0].season){
+                    let currShowInfo = $scope.showsInfo[$scope.seasons[index].data.tvmazeid];
+                    if($scope.seasons[index].data.season > currShowInfo[1][1].season){
                         $scope.seasons[index].data.season -= 1;
                     }
                 };
                 $scope.ePlus = function(index){
-                    var currShowInfo = $scope.showsInfo[$scope.seasons[index].data.tvmazeid];
-                    if($scope.seasons[index].data.episode < currShowInfo[$scope.seasons[index].data.season-1].length){
+                    let currShowInfo = $scope.showsInfo[$scope.seasons[index].data.tvmazeid];
+                    if($scope.seasons[index].data.episode < currShowInfo[$scope.seasons[index].data.season].length - 1){
                         $scope.seasons[index].data.episode += 1;   
                     }
                 };
                 $scope.eMinus = function(index){
                     if($scope.seasons[index].data.episode > 1 ){
                         $scope.seasons[index].data.episode -= 1;   
-                    }
-                    else{
-                        var currShowInfo = $scope.showsInfo[$scope.seasons[index].data.tvmazeid];
-                        if(currShowInfo[$scope.seasons[index].data.episode-1])
-                        console.log(currShowInfo[$scope.seasons[index].data.episode-1]);
                     }
                 };
 

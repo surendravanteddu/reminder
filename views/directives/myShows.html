@@ -1,7 +1,7 @@
 <div class="container" style="margin-bottom: 20px;">
     <hr/>
 	<div ng-repeat="season in seasons">
-		<h3 style="color: #1aa3ff;">{{season.data.seriesname}}</h3>{{showsInfo[season.data.tvmazeid][season.data.season - 1][season.data.episode - 1].name}}
+		<h3 style="color: #1aa3ff;">{{season.data.seriesname}}</h3>{{showsInfo[season.data.tvmazeid][season.data.season][season.data.episode].name}}
         <table>
             <tr><td><span>Season&nbsp;&nbsp;</span></td>
                 <td><div class="input-group number-spinner">
