@@ -47,7 +47,7 @@
                     let currShowInfo = $scope.showsInfo[$scope.seasons[index].data.tvmazeid][$scope.seasons[index].data.season];
                     let currShowInfo1 = $scope.showsInfo[$scope.seasons[index].data.tvmazeid];
                     if($scope.seasons[index].data.season < currShowInfo1[currShowInfo1.length - 1][1].season){
-                        if(($scope.showsInfo[$scope.seasons[index].data.tvmazeid][$scope.seasons[index].data.season + 1].length - 1) > $scope.seasons[index].data.episode)
+                        if(($scope.showsInfo[$scope.seasons[index].data.tvmazeid][$scope.seasons[index].data.season + 1].length - 1) >= $scope.seasons[index].data.episode)
                             $scope.seasons[index].data.season += 1;
                         else{
                             $scope.seasons[index].data.episode = 1;
