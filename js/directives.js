@@ -11,11 +11,32 @@
                 checkpoint : '&'  
             },
             templateUrl: 'views/directives/episodes.html',
-            controller: ['$scope', function ($scope) {
+            controller: ['$scope',function ($scope) {
+
+                $scope.showEpisodes = function(value){
+                    var temp = angular.element(value.target).context.nextElementSibling.className;
+                    if(temp === 'row hideEpisodes'){
+                        angular.element(value.target).context.nextElementSibling.className = 'row showEpisodes';
+                    }else{
+                        angular.element(value.target).context.nextElementSibling.className = 'row hideEpisodes';
+                    }
+                };
 
                 $scope.$watch('savedpoint', function(newVal, oldVal){
                     $scope.savedpoint = newVal;
-                });  
+                });
+
+                $scope.currentSeason = function(season){
+                    if($scope.savedpoint){
+                        if(season === $scope.savedpoint.s){
+                            return true;   
+                        }else{
+                            return false;
+                        }   
+                    }
+                    return false;
+                }
+
                 $scope.watched = function(episode){
                     if($scope.savedpoint){
                         if((episode.season < $scope.savedpoint.s) || (episode.season === $scope.savedpoint.s && episode.number <= $scope.savedpoint.e)){
@@ -23,7 +44,7 @@
                         }   
                     }
                 };
-            }]
+            }]  
         };
     })
         .directive("searchResult",function(){

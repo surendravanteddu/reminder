@@ -1,8 +1,8 @@
 <div style="margin-left: 10px;">
 	<div ng-repeat="season in seasons">
 		<div ng-if="season">
-			<h3 style="color: #1aa3ff;">Season {{season[1].season}}</h3>
-			<div class="row">
+			<h3 style="color: #1aa3ff;" ng-click="showEpisodes($event)">Season {{season[1].season}}</h3>
+			<div class="row {{currentSeason(season[1].season) ? 'showEpisodes' : 'hideEpisodes' }}">
 				<div class="col-lg-9 col-md-5 col-sm-5">
 					<span ng-repeat="episodes in season track by $index">
 						<span ng-if="episodes">

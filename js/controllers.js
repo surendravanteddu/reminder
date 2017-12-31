@@ -70,7 +70,6 @@
         });
         seriesInfo.seasons($stateParams.showId, function (result) {
             $scope.seasons = result;
-            console.log(result);
         });
         seriesInfo.checkpoint($stateParams.showId, function (res) {
             if (res.e && res.s) {

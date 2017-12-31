@@ -67,4 +67,12 @@ a { cursor: pointer; cursor: hand; }
     text-align: center
 }
 
+.hideEpisodes{
+    display: none;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+.showEpisodes{
+    display: block; 
+    transition: visibility 0s, opacity 0.5s linear;
+}
 

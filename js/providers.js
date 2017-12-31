@@ -47,17 +47,20 @@
             $http.get(AppConfig.tvMazeApiUrl+'/shows/'+showId+'/episodes').then(function(res){
                 var seasons = [];
                 var curr;
+                var prev;
                 var season = [];
                 angular.forEach(res.data,function(value,key){
 
                     if(!curr){
-                        curr = value.season;    
+                        curr = value.season;
+                        prev = curr;
                     }
 
                     if(curr !== value.season){
-                        seasons[value.season - 1] = season; 
+                        seasons[prev] = season; 
                         season = []; 
                         curr = value.season;    
+                        prev = curr;
                     }
                     season[value.number] = value;
                 });
