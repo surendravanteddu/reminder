@@ -4,6 +4,7 @@
     loggerApp.controller("loginController", ['$scope', 'AppConfig', '$http', '$state', '$location', function ($scope, AppConfig, $http, $state, $location) {
         $scope.data = {};
         $scope.loginFailed = false;
+        $scope.user = {};
         $scope.signIn = function () {
             $http.post(AppConfig.forms.userLogin, {
                 data: $scope.data
@@ -27,17 +28,65 @@
                 $scope.errorMessage = error.data;
             });
         };
-    }]).controller('homeController', ['$scope', 'AppConfig', '$http', '$state', 'seriesInfo', function ($scope, AppConfig, $http, $state, seriesInfo) {
+        $scope.signUp = function () {
+            $http.post(AppConfig.forms.userRegister, {
+                data: $scope.user
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response){
+                var rdata = response.data;
+                console.log(response.data);
+                var token = response.headers()['x-jwt-token'];
+                var status = response.status;
+                var statusText = response.statusText;
+                if (status == 200) {
+                    localStorage.setItem('formioToken', token);
+                    localStorage.setItem('appUser', JSON.stringify(rdata));
+                    $state.go('main.home');
+                }
+            }, function (error){
+                $scope.loginFailed = true;
+                $scope.errorMessage = error.data;
+            });
+        };
+    }]).controller('homeController', ['$scope', 'AppConfig', '$http', '$state', 'seriesInfo', '$stateParams', 'ngToast', function ($scope, AppConfig, $http, $state, seriesInfo, $stateParams, ngToast) {
         seriesInfo.myShows(function (result) {
             $scope.seasons = result;
             $scope.showsInfo = {};
             $scope.seasons.forEach(function(value,key){
-               seriesInfo.seasons(value.data.tvmazeid,function(res){
-                  $scope.showsInfo[value.data.tvmazeid] = res; 
-               });
-            });
+             seriesInfo.seasons(value.data.tvmazeid,function(res){
+              $scope.showsInfo[value.data.tvmazeid] = res; 
+          });
+         });
         });
-        
+        $scope.saveCheckpoint = function (episode) {
+            var savepoint = {};
+            savepoint.seriesname = episode.data.seriesname;
+            savepoint.tvmazeid = episode.data.tvmazeid;
+            savepoint.season = episode.data.season;
+            savepoint.episode = episode.data.episode;
+            $http.put(AppConfig.forms.useractivity + "/" + episode._id, {
+                data: savepoint
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                    , 'x-jwt-token': localStorage.getItem('formioToken')
+                }
+            }).then(function (response) {
+                var token = response.headers()['x-jwt-token'];
+                var status = response.status;
+                var statusText = response.statusText;
+                console.log(statusText);
+                if (status == 200) {
+                    localStorage.setItem('formioToken', token);
+                    toastmessage(ngToast,'Checkpoint Updated');
+                }
+            }, function (error) {
+                $scope.errorMessage = error.data;
+            });
+        };
     }]).controller('headerController', ['$scope', 'AppConfig', '$http', '$state', 'userInfo', '$timeout', '$q', 'searchResults', '$location', function ($scope, AppConfig, $http, $state, userInfo, $timeout, $q, searchResults, $location) {
         $scope.username = userInfo.username;
         var timeout;

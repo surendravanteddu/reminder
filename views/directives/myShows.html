@@ -1,4 +1,5 @@
 <div class="container" style="margin-bottom: 20px;">
+    <toast class="cToast"></toast>
     <hr/>
 	<div ng-repeat="season in seasons">
         <h3 style="color: darkblue;"><a href="/#!/series/{{season.data.seriesname}}/{{season.data.tvmazeid}}"><b>{{season.data.seriesname}}</b></a> - <span style="color: darkgray">{{showsInfo[season.data.tvmazeid][season.data.season][season.data.episode].name}}<span></h3>
@@ -23,7 +24,7 @@
                         <button class="btn btn-default btn-primary" data-dir="up" ng-click="ePlus(seasons.indexOf(season))"><span class="glyphicon glyphicon-plus"></span></button>
                     </span>
                 </div></td>
-                <td><input type="submit" value="Update" name="submit" class="btn btn-primary"></td>
+                <td><input type="button" value="Update" class="btn btn-primary" ng-click="checkpoint({episode : season})"></td>
             </tr>
         </table>
     <hr/>

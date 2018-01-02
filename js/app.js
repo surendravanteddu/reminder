@@ -28,6 +28,7 @@ var loggerApp;
         apiUrl: API_URL,
         tvMazeApiUrl : TVMaze_API,  
         forms: {
+            userRegister: API_URL + '/user/register/submission',
             userLogin: API_URL + '/user/login/submission',
             useractivity: API_URL + '/useractivity/submission',
         }
