@@ -60,7 +60,8 @@
             scope: {
                 seasons : '=',
                 showsInfo: '=',
-                checkpoint: '&'
+                checkpoint: '&',
+                deletecheckpoint: '&'
             },
             templateUrl: 'views/directives/myShows.html',    
             controller: ['$scope',function($scope){

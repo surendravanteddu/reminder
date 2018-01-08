@@ -61,7 +61,7 @@
           });
          });
         });
-        $scope.saveCheckpoint = function (episode) {
+        $scope.savecheckpoint = function (episode) {
             var savepoint = {};
             savepoint.seriesname = episode.data.seriesname;
             savepoint.tvmazeid = episode.data.tvmazeid;
@@ -85,6 +85,26 @@
                 }
             }, function (error) {
                 $scope.errorMessage = error.data;
+            });
+        };
+        $scope.deletecheckpoint = function (episode){
+            $http.delete(AppConfig.forms.useractivity + "/" + episode._id,
+            {
+                headers: {
+                    'x-jwt-token': localStorage.getItem('formioToken')   
+                }
+            }).then(function (response){
+                var token = response.headers()['x-jwt-token'];
+                var status = response.status;
+                var statusText = response.statusText;
+                console.log(statusText);
+                if (status == 200) {
+                    localStorage.setItem('formioToken', token);
+                    $state.reload();
+                    toastmessage(ngToast,'Checkpoint Deleted');
+                }
+            }, function (error) {
+                $scope.errorMessage = error.data; 
             });
         };
     }]).controller('headerController', ['$scope', 'AppConfig', '$http', '$state', 'userInfo', '$timeout', '$q', 'searchResults', '$location', function ($scope, AppConfig, $http, $state, userInfo, $timeout, $q, searchResults, $location) {
