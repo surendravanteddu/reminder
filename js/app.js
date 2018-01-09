@@ -22,7 +22,7 @@ var loggerApp;
     }
 
     var API_URL = 'https://judmyihfvslaczr.form.io';
-    var TVMaze_API = 'http://api.tvmaze.com';
+    var TVMaze_API = 'https://api.tvmaze.com';
 
     loggerApp.constant('AppConfig', {
         apiUrl: API_URL,
