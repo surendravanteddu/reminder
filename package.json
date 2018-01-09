@@ -1,8 +1,11 @@
 {
   "name": "ng-app-starterkit",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.16.2"
+  },
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
