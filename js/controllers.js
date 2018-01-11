@@ -61,7 +61,7 @@
           });
          });
         });
-        $scope.savecheckpoint = function (episode) {
+        $scope.saveCheckpoint = function (episode) {
             var savepoint = {};
             savepoint.seriesname = episode.data.seriesname;
             savepoint.tvmazeid = episode.data.tvmazeid;
