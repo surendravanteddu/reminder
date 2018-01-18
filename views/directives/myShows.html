@@ -1,33 +1,38 @@
 <div class="container" style="margin-bottom: 20px;">
     <toast class="cToast"></toast>
     <hr/>
-	<div ng-repeat="season in seasons">
-        <h3 style="color: darkblue;"><a href="/#!/series/{{season.data.seriesname}}/{{season.data.tvmazeid}}"><b>{{season.data.seriesname}}</b></a> - <span style="color: darkgray">{{showsInfo[season.data.tvmazeid][season.data.season][season.data.episode].name}}<span></h3>
-        <table>
-            <tr><td><p style="margin-left: 10%;color: darkblue"><b>Season</b></p></td><td><p style="margin-left: 10%;color: darkblue"><b>Episode</b></p></td></tr>
-            <tr style="margin-top: -10px;">
-                <td><div class="input-group number-spinner">
-                    <span class="input-group-btn data-dwn">
-                        <button class="btn btn-default btn-primary" style="margin-top: -35px;" data-dir="dwn" ng-click="sMinus(seasons.indexOf(season))"><span class="glyphicon glyphicon-minus"></span></button>
-                    </span>
-                    <input type="text" class="form-control text-center" value="{{season.data.season}}" style="margin-top: 27px; width: 60%;" readonly="true">
-                    <span class="input-group-btn data-up">
-                        <button class="btn btn-default btn-primary" data-dir="up" ng-click="sPlus(seasons.indexOf(season))"><span class="glyphicon glyphicon-plus"></span></button>
-                    </span>
-                </div></td>
-                <td><div class="input-group number-spinner">
-                    <span class="input-group-btn data-dwn">
-                        <button class="btn btn-default btn-primary" style="margin-top: -35px;" data-dir="dwn" ng-click="eMinus(seasons.indexOf(season))"><span class="glyphicon glyphicon-minus" ></span></button>
-                    </span>
-                    <input type="text" class="form-control text-center" value="{{season.data.episode}}" style="margin-top: 27px; width: 60%;" readonly="true">
-                    <span class="input-group-btn data-up">
-                        <button class="btn btn-default btn-primary" data-dir="up" ng-click="ePlus(seasons.indexOf(season))"><span class="glyphicon glyphicon-plus"></span></button>
-                    </span>
-                </div></td>
-                <td><input type="button" value="Update" class="btn btn-primary" ng-click="checkpoint({episode : season})"></td>
-                <td style="padding-left: 30px;"><input type="button" value="Delete" class="btn btn-primary" ng-click="deletecheckpoint({episode : season})"></td>
-            </tr>
-        </table>
-    <hr/>
+    <div ng-if="seasons.length !== 0">
+    	<div ng-repeat="season in seasons">
+            <h3 style="color: darkblue;"><a href="/#!/series/{{season.data.seriesname}}/{{season.data.tvmazeid}}"><b>{{season.data.seriesname}}</b></a> - <span style="color: darkgray">{{showsInfo[season.data.tvmazeid][season.data.season][season.data.episode].name}}<span></h3>
+            <table>
+                <tr><td><p style="margin-left: 10%;color: darkblue"><b>Season</b></p></td><td><p style="margin-left: 10%;color: darkblue"><b>Episode</b></p></td></tr>
+                <tr style="margin-top: -10px;">
+                    <td><div class="input-group number-spinner">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default btn-primary" style="margin-top: -35px;" data-dir="dwn" ng-click="sMinus(seasons.indexOf(season))"><span class="glyphicon glyphicon-minus"></span></button>
+                        </span>
+                        <input type="text" class="form-control text-center" value="{{season.data.season}}" style="margin-top: 27px; width: 60%;" readonly="true">
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default btn-primary" data-dir="up" ng-click="sPlus(seasons.indexOf(season))"><span class="glyphicon glyphicon-plus"></span></button>
+                        </span>
+                    </div></td>
+                    <td><div class="input-group number-spinner">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default btn-primary" style="margin-top: -35px;" data-dir="dwn" ng-click="eMinus(seasons.indexOf(season))"><span class="glyphicon glyphicon-minus" ></span></button>
+                        </span>
+                        <input type="text" class="form-control text-center" value="{{season.data.episode}}" style="margin-top: 27px; width: 60%;" readonly="true">
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default btn-primary" data-dir="up" ng-click="ePlus(seasons.indexOf(season))"><span class="glyphicon glyphicon-plus"></span></button>
+                        </span>
+                    </div></td>
+                    <td><input type="button" value="Update" class="btn btn-primary" ng-click="checkpoint({episode : season})"></td>
+                    <td style="padding-left: 30px;"><input type="button" value="Delete" class="btn btn-primary" ng-click="deletecheckpoint({episode : season})"></td>
+                </tr>
+            </table>
+        <hr/>
+        </div>
+    </div>
+    <div style="text-align: center;" ng-if="seasons.length === 0">
+        <h2 style="color: darkgray;">No show bookmarks available please search for shows in the menu at the top <span class="glyphicon glyphicon-arrow-up"></h2>
     </div>
 </div>
