@@ -15,12 +15,15 @@ var loggerApp;
     run.$inject = ['$rootScope', '$location', '$state'];
     function run($rootScope, $location, $state) {
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
-               if(!localStorage.getItem('formioToken')){
+               if(!localStorage.getItem('formioToken') && !($location.path()== '/login' || $location.path()== '/resetpass') ){
+                    console.log('loginsadfas');
                     $location.path('/login');
+                }else if(localStorage.getItem('formioToken') && $location.path()== '/login'){
+                    $location.path('/');
                 }
         });
     }
-
+    
     var API_URL = 'https://judmyihfvslaczr.form.io';
     var TVMaze_API = 'https://api.tvmaze.com';
 

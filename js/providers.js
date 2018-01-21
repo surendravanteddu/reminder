@@ -2,18 +2,24 @@
     'use strict';
     loggerApp
 
-    .factory('userInfo',function(){
+        .factory('userInfo',function($location){
         var data = localStorage.getItem("appUser");
-        data = JSON.parse(data);
-        return data.data;       
+        if(data){
+            data = JSON.parse(data);
+            return data.data;           
+        }else{
+           localStorage.clear();    
+           $location.path('/login');
+            return "";
+        }
     })
 
-    .factory('searchResults',function($http,AppConfig){
+        .factory('searchResults',function($http,AppConfig){
         var search = {};
         search.results = [];
         search.getResults = function(keyword,next){
             $http.get(AppConfig.tvMazeApiUrl+'/search/shows',{params: {'q' : keyword}})
-            .then(function(data){
+                .then(function(data){
                 return data;
             }).then(function(data){
                 search.results = [];
@@ -34,12 +40,14 @@
         return search;   
     })
 
-    .factory('seriesInfo', function($http,AppConfig){
+        .factory('seriesInfo', function($http, AppConfig, $location){
         var seriesInfo = {};
 
         seriesInfo.info = function(showId,next){
             $http.get(AppConfig.tvMazeApiUrl+'/shows/'+showId).then(function(res){
                 next(res.data);
+            }).catch(function(err){
+                console.log("series info", err);
             });  
         };
 
@@ -71,12 +79,12 @@
 
         seriesInfo.checkpoint = function(showId, next){
             $http.get(AppConfig.forms.useractivity+'?data.tvmazeid='+showId,  
-            {
+                      {
                 headers: {
                     'x-jwt-token': localStorage.getItem('formioToken')  
                 } 
             })
-            .then(function (response) {
+                .then(function (response) {
                 var result = {};
                 if(response.data[0]){
                     result.s = response.data[0].data.season;
@@ -85,7 +93,10 @@
                 }
                 next(result);
             },function(error){
-                console.log(error.data +", "+error.status+", "+error.statusText);
+                if([400, 401].indexOf(error.status) > -1){
+                    $location.path('/login')
+                }
+//                console.log(error.data +", "+error.status+", "+error.statusText);
             });  
         };
 
@@ -95,10 +106,13 @@
                     'x-jwt-token': localStorage.getItem('formioToken')  
                 } 
             })
-            .then(function (response) {
+                .then(function (response) {
                 next(response.data);
             },function(error){
-                console.log(error.data +", "+error.status+", "+error.statusText);
+                if([400, 401].indexOf(error.status) > -1){
+                    $location.path('/login')
+                }
+//                console.log("My Shows", error.data +", "+error.status+", "+error.statusText);
             });
         };
 

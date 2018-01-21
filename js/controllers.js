@@ -130,7 +130,11 @@
             localStorage.clear();
             $state.go('login');
         };
-    }]).controller('seriesInfoController', ['$scope', '$state', '$q', '$location', '$stateParams', 'seriesInfo', '$http', 'AppConfig', 'ngToast', function ($scope, $state, $q, $location, $stateParams, seriesInfo, $http, AppConfig, ngToast) {
+    }]).controller('resetpassController', ['$scope','$http', function ($scope, $http) {
+        
+    }])
+        
+        .controller('seriesInfoController', ['$scope', '$state', '$q', '$location', '$stateParams', 'seriesInfo', '$http', 'AppConfig', 'ngToast', function ($scope, $state, $q, $location, $stateParams, seriesInfo, $http, AppConfig, ngToast) {
 
         seriesInfo.info($stateParams.showId, function (result) {
             $scope.showName = result.name;
