@@ -130,8 +130,49 @@
             localStorage.clear();
             $state.go('login');
         };
-    }]).controller('resetpassController', ['$scope','$http', function ($scope, $http) {
-        
+    }]).controller('resetpassController', ['$scope','$http', 'AppConfig', 'ngToast', '$location', '$state', function ($scope, $http, AppConfig, ngToast, $location, $state) {
+        $scope.data = {};
+        $scope.currentPath = $location.url();
+        if($scope.currentPath.indexOf('token') !== -1){
+            var token = $scope.currentPath.split('=')[1];
+            $http.get(AppConfig.forms.user,
+            {
+                headers: {
+                    'x-jwt-token': token
+                }
+            }).then(function (response){
+                var token = response.headers()['x-jwt-token'];
+                var status = response.status;
+                var statusText = response.statusText;
+                if (status == 200 || status == 206) {
+                    localStorage.setItem('formioToken', token);
+                    localStorage.setItem('appUser', response.data.username);
+                }
+            }, function (error) {
+                $scope.errorMessage = error.data; 
+            });
+        }
+        $scope.changePassword = function () {
+            $http.post(AppConfig.forms.forgotPassword, {
+                data: $scope.data
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                var rdata = response.data;
+                var token = response.headers()['x-jwt-token'];
+                var status = response.status;
+                var statusText = response.statusText;
+                if (status == 200) {
+                    toastmessage(ngToast,'Email sent successfully');
+                }
+            }, function (error) {
+                //console.log(error.data +", "+error.status+", "+error.statusText);
+                $scope.loginFailed = true;
+                $scope.errorMessage = error.data;
+            });
+        };
     }])
         
         .controller('seriesInfoController', ['$scope', '$state', '$q', '$location', '$stateParams', 'seriesInfo', '$http', 'AppConfig', 'ngToast', function ($scope, $state, $q, $location, $stateParams, seriesInfo, $http, AppConfig, ngToast) {

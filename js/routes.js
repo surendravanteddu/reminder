@@ -11,8 +11,16 @@
         })  
             .state('resetpass', {
             url: '/resetpass',
-            templateUrl: 'views/resetPass.html',
-            controller : 'resetpassController'
+            views: {
+                '':{
+                    templateUrl: 'views/resetPass.html',
+                    controller : 'resetpassController'
+                },
+                'header@resetpass':{
+                    templateUrl: 'views/main.html',
+                    controller: 'headerController',
+                },
+            }
         })
             .state('main', {
             abstract : true,

@@ -1,1 +1,27 @@
-
+<html>
+<head>
+	<link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+	<div ng-if="currentPath.indexOf('token') !== -1">
+		<div ui-view="header"></div>
+		
+	</div>
+	<div ng-if="currentPath.indexOf('token') === -1">
+		<div class="container" style="text-align: center;">
+			<toast class="cToast"></toast>
+			<h1>Change Password</h1>
+			<hr>
+			<form name="userForm" ng-submit="changePassword()">
+				<div class="sign-in-htm">
+					<div ng-if='loginFailed'>{{ errorMessage }}</div>
+					<div class="group">
+						<input id="email" placeholder="Enter your email" type="email" class="input" ng-model="data.email">
+					</div>
+					<input style="margin-top: 10px;" type="submit" name="submit" class="btn btn-primary">
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
