@@ -37,7 +37,7 @@
                 }
             }).then(function (response){
                 var rdata = response.data;
-                console.log(response.data);
+//                console.log(response.data);
                 var token = response.headers()['x-jwt-token'];
                 var status = response.status;
                 var statusText = response.statusText;
@@ -78,7 +78,7 @@
                 var token = response.headers()['x-jwt-token'];
                 var status = response.status;
                 var statusText = response.statusText;
-                console.log(statusText);
+//                console.log(statusText);
                 if (status == 200) {
                     localStorage.setItem('formioToken', token);
                     toastmessage(ngToast,'Checkpoint Updated');
@@ -97,7 +97,7 @@
                 var token = response.headers()['x-jwt-token'];
                 var status = response.status;
                 var statusText = response.statusText;
-                console.log(statusText);
+//                console.log(statusText);
                 if (status == 200) {
                     localStorage.setItem('formioToken', token);
                     $state.reload();
@@ -130,28 +130,67 @@
             localStorage.clear();
             $state.go('login');
         };
-    }]).controller('resetpassController', ['$scope','$http', 'AppConfig', 'ngToast', '$location', '$state', function ($scope, $http, AppConfig, ngToast, $location, $state) {
+    }])
+        .controller('resetpassController', ['$scope','$http', 'AppConfig', 'ngToast', '$location', '$state', function ($scope, $http, AppConfig, ngToast, $location, $state) {
         $scope.data = {};
         $scope.currentPath = $location.url();
-        if($scope.currentPath.indexOf('token') !== -1){
-            var token = $scope.currentPath.split('=')[1];
+        $scope.showResetPassword = ($location.search().token || localStorage.getItem('formioToken')) ? true : false;
+        $scope.resetbutton = false;
+        $scope.passmatch = true;    
+            
+        $scope.$watch('data.repass',function(newval, oldval){
+            if($scope.data.pass !== newval){
+                $scope.passmatch = false;
+                $scope.resetbutton = false;
+            }else{
+                $scope.passmatch = true;
+                $scope.resetbutton = ($scope.data.repass && $scope.data.repass.length > 0);
+            }
+        });
+        
+        if($location.search().token){ 
+            localStorage.setItem('formioToken', $location.search().token);
             $http.get(AppConfig.forms.user,
             {
                 headers: {
-                    'x-jwt-token': token
+                    'x-jwt-token': $location.search().token
                 }
             }).then(function (response){
-                var token = response.headers()['x-jwt-token'];
                 var status = response.status;
                 var statusText = response.statusText;
                 if (status == 200 || status == 206) {
-                    localStorage.setItem('formioToken', token);
-                    localStorage.setItem('appUser', response.data.username);
+                    localStorage.setItem('appUser', JSON.stringify(response.data[0]));
                 }
             }, function (error) {
                 $scope.errorMessage = error.data; 
             });
         }
+        
+        $scope.resetPassword = function () {
+            $http.put(AppConfig.forms.user+"/"+JSON.parse(localStorage.getItem('appUser'))._id, {
+                data: { "email": JSON.parse(localStorage.getItem('appUser')).data.email,"password" : $scope.data.pass}
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-jwt-token': localStorage.getItem('formioToken')
+                }
+            }).then(function (response) {
+                var rdata = response.data;
+                var status = response.status;
+                var statusText = response.statusText;
+                localStorage.setItem('formioToken', response.headers()['x-jwt-token']);
+                if (status === 200) {
+                    toastmessage(ngToast,'Password Changed successfully');
+                    $location.path('/');
+                }
+            }, function (error) {
+//                console.log(error.data +", "+error.status+", "+error.statusText);
+                $scope.loginFailed = true;
+                $scope.errorMessage = error.data;
+            });
+        };
+        
+        
         $scope.changePassword = function () {
             $http.post(AppConfig.forms.forgotPassword, {
                 data: $scope.data
@@ -161,7 +200,6 @@
                 }
             }).then(function (response) {
                 var rdata = response.data;
-                var token = response.headers()['x-jwt-token'];
                 var status = response.status;
                 var statusText = response.statusText;
                 if (status == 200) {
@@ -208,7 +246,6 @@
                     var token = response.headers()['x-jwt-token'];
                     var status = response.status;
                     var statusText = response.statusText;
-                    console.log(statusText);
                     if (status == 200) {
                         localStorage.setItem('formioToken', token);
                         $scope.savedpoint.s = episode.season;
@@ -231,7 +268,6 @@
                     var token = response.headers()['x-jwt-token'];
                     var status = response.status;
                     var statusText = response.statusText;
-                    console.log(statusText);
                     if (status == 201) {
                         localStorage.setItem('formioToken', token);
                         $scope.savedpoint = {

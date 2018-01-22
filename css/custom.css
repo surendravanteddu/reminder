@@ -59,7 +59,7 @@ a { cursor: pointer; cursor: hand; }
 }
 
 .cToast{
-    margin-top: -5%;
+    margin-top: 5%;
     margin-left: 50%; 
     width:40%; 
     position: fixed; 
