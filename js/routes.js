@@ -8,7 +8,17 @@
             url: '/login',
             templateUrl: 'views/login.html',
             controller : 'loginController'
-        }).state('main', {
+        })  
+            .state('resetpass', {
+            url: '/resetpass',
+            views: {
+                '':{
+                    templateUrl: 'views/resetPass.html',
+                    controller : 'resetpassController'
+                }
+            }
+        })
+            .state('main', {
             abstract : true,
             templateUrl: 'views/main.html',
             controller: 'headerController'
