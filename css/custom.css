@@ -59,12 +59,20 @@ a { cursor: pointer; cursor: hand; }
 }
 
 .cToast{
-    margin-top: -5%;
-    margin-left: 60%; 
-    width:30%; 
+    margin-top: 5%;
+    margin-left: 50%; 
+    width:40%; 
     position: fixed; 
     z-index: 1;
     text-align: center
 }
 
+.hideEpisodes{
+    display: none;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+.showEpisodes{
+    display: block; 
+    transition: visibility 0s, opacity 0.5s linear;
+}
 

@@ -2,10 +2,16 @@
     'use strict';
     loggerApp
 
-        .factory('userInfo',function(){
+        .factory('userInfo',function($location){
         var data = localStorage.getItem("appUser");
-        data = JSON.parse(data);
-        return data.data;       
+        if(data){
+            data = JSON.parse(data);
+            return data.data;           
+        }else{
+           localStorage.clear();    
+           $location.path('/login');
+            return "";
+        }
     })
 
         .factory('searchResults',function($http,AppConfig){
@@ -34,12 +40,14 @@
         return search;   
     })
 
-        .factory('seriesInfo', function($http,AppConfig){
+        .factory('seriesInfo', function($http, AppConfig, $location){
         var seriesInfo = {};
 
         seriesInfo.info = function(showId,next){
             $http.get(AppConfig.tvMazeApiUrl+'/shows/'+showId).then(function(res){
                 next(res.data);
+            }).catch(function(err){
+                console.log("series info", err);
             });  
         };
 
@@ -47,22 +55,24 @@
             $http.get(AppConfig.tvMazeApiUrl+'/shows/'+showId+'/episodes').then(function(res){
                 var seasons = [];
                 var curr;
+                var prev;
                 var season = [];
                 angular.forEach(res.data,function(value,key){
 
                     if(!curr){
-                        curr = value.season;    
+                        curr = value.season;
+                        prev = curr;
                     }
 
                     if(curr !== value.season){
-                        seasons.push(season); 
+                        seasons[prev] = season; 
                         season = []; 
                         curr = value.season;    
+                        prev = curr;
                     }
-
-                    season.push(value);  
+                    season[value.number] = value;
                 });
-                seasons.push(season);
+                seasons[curr] = season;
                 next(seasons);
             });  
         };
@@ -83,8 +93,27 @@
                 }
                 next(result);
             },function(error){
-                console.log(error.data +", "+error.status+", "+error.statusText);
+                if([400, 401].indexOf(error.status) > -1){
+                    $location.path('/login')
+                }
+//                console.log(error.data +", "+error.status+", "+error.statusText);
             });  
+        };
+
+        seriesInfo.myShows = function(next){
+            $http.get(AppConfig.forms.useractivity,{
+                headers: {
+                    'x-jwt-token': localStorage.getItem('formioToken')  
+                } 
+            })
+                .then(function (response) {
+                next(response.data);
+            },function(error){
+                if([400, 401].indexOf(error.status) > -1){
+                    $location.path('/login')
+                }
+//                console.log("My Shows", error.data +", "+error.status+", "+error.statusText);
+            });
         };
 
         return seriesInfo;  
