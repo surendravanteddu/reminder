@@ -1,0 +1,22 @@
+<html>
+<head>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div ui-view="header" style="margin-top: -20px;"></div>
+    <h2 style="text-align: center">Change Password</h2>
+    <form name="userForm" ng-submit="changePassword()">
+        <div class="sign-in-htm" align="center">
+            <div ng-if='!passmatch' class="alert alert-warning" style="width: 30%">Passwords Didnot Match</div>
+            <div>
+                <div class="col-lg-4"></div>
+                <div class="group col-lg-4 col-md-6">
+                    <input placeholder="New Password" type="password" class="form-control" ng-model="data.pass">
+                    <input placeholder="Re-enter New Password" type="password" class="form-control" ng-model="data.repass" style="margin-top: 10px;">
+                    <input style="margin-top: 10px;" type="submit" ng-disabled="!changebutton" name="submit" class="btn btn-primary col-md-12 col-sm-12">
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

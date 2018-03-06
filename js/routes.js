@@ -18,6 +18,19 @@
                 }
             }
         })
+            .state('changepass',{
+                url:'/changepass',
+                views: {
+                    '':{
+                        templateUrl: 'views/changePass.html',
+                        controller: 'changepassController'
+                    },
+                    'header@changepass':{
+                        templateUrl: 'views/main.html',
+                        controller: 'headerController'
+                    }
+                }
+            })
             .state('main', {
             abstract : true,
             templateUrl: 'views/main.html',

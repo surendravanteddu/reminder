@@ -101,7 +101,7 @@
         };
 
         seriesInfo.myShows = function(next){
-            $http.get(AppConfig.forms.useractivity,{
+            $http.get(AppConfig.forms.useractivity+'?sort=-created',{
                 headers: {
                     'x-jwt-token': localStorage.getItem('formioToken')  
                 } 

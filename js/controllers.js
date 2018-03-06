@@ -131,6 +131,46 @@
             $state.go('login');
         };
     }])
+        .controller('changepassController', ['$scope','$http','AppConfig','ngToast','$location','$state',function($scope, $http, AppConfig, ngToast, $location, $state){
+            $scope.data = {};
+            $scope.passmatch = true;
+            $scope.changebutton = false;
+
+            $scope.$watch('data.repass',function(newval, oldval){
+                if($scope.data.pass != newval){
+                    $scope.passmatch = false;
+                    $scope.changebutton = false;                    
+                }
+                else{
+                    $scope.passmatch = true;
+                    $scope.changebutton = ($scope.data.repass && $scope.data.repass.length > 0);
+                }
+            });
+
+            $scope.changePassword = function () {
+            $http.put(AppConfig.forms.user+"/"+JSON.parse(localStorage.getItem('appUser'))._id, {
+                data: { "email": JSON.parse(localStorage.getItem('appUser')).data.email,"password" : $scope.data.pass}
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-jwt-token': localStorage.getItem('formioToken')
+                }
+            }).then(function (response) {
+                var rdata = response.data;
+                var status = response.status;
+                var statusText = response.statusText;
+                localStorage.setItem('formioToken', response.headers()['x-jwt-token']);
+                if (status === 200) {
+                    toastmessage(ngToast,'Password Changed successfully');
+                    $location.path('/');
+                }
+            }, function (error) {
+//                console.log(error.data +", "+error.status+", "+error.statusText);
+                $scope.loginFailed = true;
+                $scope.errorMessage = error.data;
+            });
+        };
+    }])
         .controller('resetpassController', ['$scope','$http', 'AppConfig', 'ngToast', '$location', '$state', function ($scope, $http, AppConfig, ngToast, $location, $state) {
         $scope.data = {};
         $scope.currentPath = $location.url();
